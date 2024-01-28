@@ -13,32 +13,8 @@ const PORT = process.env.PORT || 3000;
 const apiKey = process.env.SKY_MAVIS_API_KEY;
 const baseUrl = "https://api-gateway.skymavis.com/graphql/axie-marketplace"
 
-const mock_query = `
-query LandListed {
-    lands(
-      size: 24
-      criteria: {landType: Savannah}
-      auctionType: Sale
-      sort: PriceAsc
-    ) {
-      results {
-        tokenId
-        owner
-        row
-        col
-        order {
-          currentPriceUsd
-          id
-          startedAt
-        }
-      }
-    }
-  }
-`
-
-app.post("/GetListedLands", async (req, res) => {
+app.post("/axie-marketplace", async (req, res) => {
   const query = req.body["query"];
-//   const query = mock_query;
 
   try {
       const responseData = await handleGraphQLQuery(query);
@@ -50,12 +26,11 @@ app.post("/GetListedLands", async (req, res) => {
 });
 
 async function handleGraphQLQuery(query) {
-
   try {
     const res = await axios.post(
       baseUrl,
       {
-        query: query, // Include the GraphQL query in the request body
+        query: query
       },
       {
         headers: {
