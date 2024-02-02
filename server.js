@@ -11,26 +11,39 @@ app.use(bodyParser.json());
 
 const PORT = process.env.PORT || 3000;
 const apiKey = process.env.SKY_MAVIS_API_KEY;
-const baseUrl = "https://api-gateway.skymavis.com/graphql/axie-marketplace"
+const axie_marketplace_url =
+  "https://api-gateway.skymavis.com/graphql/axie-marketplace";
+const mavis_marketplace_url =
+  "https://api-gateway.skymavis.com/graphql/mavis-marketplace";
 
 app.post("/axie-marketplace", async (req, res) => {
   const query = req.body["query"];
 
   try {
-      const responseData = await handleGraphQLQuery(query);
-      res.json(responseData);
+    const responseData = await handleGraphQLQuery(axie_marketplace_url, query);
+    res.json(responseData);
   } catch (error) {
-    res.status(500).json({error:error.message})
+    res.status(500).json({ error: error.message });
   }
-
 });
 
-async function handleGraphQLQuery(query) {
+app.post("/mavis-marketplace", async (req, res) => {
+  const query = req.body["query"];
+
+  try {
+    const responseData = await handleGraphQLQuery(mavis_marketplace_url, query);
+    res.json(responseData);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+async function handleGraphQLQuery(baseUrl, query) {
   try {
     const res = await axios.post(
       baseUrl,
       {
-        query: query
+        query: query,
       },
       {
         headers: {
@@ -45,7 +58,7 @@ async function handleGraphQLQuery(query) {
       throw new Error("Response is not in JSON format");
     }
     const data = res.data;
-    return {status: res.status, data}
+    return { status: res.status, data };
   } catch (error) {
     throw new Error(`Error in fetchData: ${error.message}`);
   }
