@@ -11,16 +11,21 @@ app.use(bodyParser.json());
 
 const PORT = process.env.PORT || 3000;
 const apiKey = process.env.SKY_MAVIS_API_KEY;
+
 const axie_marketplace_url =
   "https://api-gateway.skymavis.com/graphql/axie-marketplace";
 const mavis_marketplace_url =
   "https://api-gateway.skymavis.com/graphql/mavis-marketplace";
 
 app.post("/axie-marketplace", async (req, res) => {
-  const query = req.body["query"];
+  const { query, variables } = req.body;
 
   try {
-    const responseData = await handleGraphQLQuery(axie_marketplace_url, query);
+    const responseData = await handleGraphQLQuery(
+      axie_marketplace_url,
+      query,
+      variables
+    );
     res.json(responseData);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -28,22 +33,27 @@ app.post("/axie-marketplace", async (req, res) => {
 });
 
 app.post("/mavis-marketplace", async (req, res) => {
-  const query = req.body["query"];
+  const { query, variables } = req.body;
 
   try {
-    const responseData = await handleGraphQLQuery(mavis_marketplace_url, query);
+    const responseData = await handleGraphQLQuery(
+      mavis_marketplace_url,
+      query,
+      variables
+    );
     res.json(responseData);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
-async function handleGraphQLQuery(baseUrl, query) {
+async function handleGraphQLQuery(baseUrl, query, variables) {
   try {
     const res = await axios.post(
       baseUrl,
       {
         query: query,
+        variables: variables,
       },
       {
         headers: {
