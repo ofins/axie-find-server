@@ -1,12 +1,11 @@
 {
-  "type": "module",
   "name": "portal-api",
   "version": "0.1.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "devStart": "nodemon server.js"
+    "devStart": "nodemon ./server/server.js"
   },
   "author": "",
   "license": "ISC",
@@ -16,6 +15,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.1",
     "express": "^4.18.2",
+    "morgan": "^1.10.0",
     "nodemon": "^3.0.3"
   }
 }
