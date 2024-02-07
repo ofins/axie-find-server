@@ -82,4 +82,29 @@ const landsAuctionQuery = gql`
   }
 `;
 
-module.exports = { landSalesQuery, landsAuctionQuery };
+const exchangeRatesQuery = gql`
+  query ExchangeRate {
+    exchangeRate {
+      axs {
+        usd
+      }
+      eth {
+        usd
+      }
+      ron {
+        usd
+      }
+      slp {
+        usd
+      }
+      usd {
+        usd
+      }
+      usdc {
+        usd
+      }
+    }
+  }
+`;
+
+module.exports = { landSalesQuery, landsAuctionQuery, exchangeRatesQuery };

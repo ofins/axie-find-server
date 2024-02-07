@@ -3,6 +3,7 @@ const { GraphQLClient } = require("graphql-request");
 const {
   landSalesQuery,
   landsAuctionQuery,
+  exchangeRatesQuery,
 } = require("../schemas/queries/axieMarket");
 
 const endpoint = "https://api-gateway.skymavis.com/graphql/axie-marketplace";
@@ -29,10 +30,19 @@ const getLandAuctions = async (req, res) => {
 
   try {
     const response = await client.request(landsAuctionQuery, variables);
-    res.json(response);
+    res.json(response.lands);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-module.exports = { getLandSales, getLandAuctions };
+const getExchangeRates = async (req, res) => {
+  try {
+    const response = await client.request(exchangeRatesQuery);
+    res.json(response.exchangeRate);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+module.exports = { getLandSales, getLandAuctions, getExchangeRates };
