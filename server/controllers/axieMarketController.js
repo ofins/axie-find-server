@@ -1,4 +1,3 @@
-const express = require("express");
 const SM_API_KEY = require("../config/db");
 const { GraphQLClient } = require("graphql-request");
 const {
