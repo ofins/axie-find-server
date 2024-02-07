@@ -56,9 +56,13 @@ function unwrapResData(queryType, res) {
  * }
  */
 const getAxieMarketData = async (req, res) => {
-  const { queryType, variables } = req.body;
+  const { queryType, variables = {} } = req.body;
 
   try {
+    if (!queryType) {
+      throw new Error("queryType is required!");
+    }
+
     const response = await client.request(
       selectAxieMarketQuery(queryType),
       variables
