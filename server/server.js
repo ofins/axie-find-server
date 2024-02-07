@@ -3,37 +3,24 @@ require("dotenv").config();
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const axios = require("axios");
+const morgan = require("morgan");
+const colors = require("colors");
 
-const axieRoutes = require("./routes/axieMarket/index.js");
+const axieRoutes = require("./routes/axieMarketRoute");
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(bodyParser.json());
+app.use(morgan("dev"));
+
 app.use("/axie-marketplace", axieRoutes);
 
 const PORT = process.env.PORT || 3000;
 const apiKey = process.env.SKY_MAVIS_API_KEY;
 
-// const axie_marketplace_url =
-//   "https://api-gateway.skymavis.com/graphql/axie-marketplace";
 const mavis_marketplace_url =
   "https://api-gateway.skymavis.com/graphql/mavis-marketplace";
-
-// app.post("/axie-marketplace", async (req, res) => {
-//   const { query, variables } = req.body;
-
-//   try {
-//     const responseData = await handleGraphQLQuery(
-//       axie_marketplace_url,
-//       query,
-//       variables
-//     );
-//     res.json(responseData);
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// });
 
 app.post("/mavis-marketplace", async (req, res) => {
   const { query, variables } = req.body;
@@ -78,5 +65,5 @@ async function handleGraphQLQuery(baseUrl, query, variables) {
 }
 
 app.listen(PORT, () => {
-  console.log(`Server is listening on port ${PORT}`);
+  console.log(`Server is listening on port ${PORT}`.yellow.bold);
 });
