@@ -31,7 +31,7 @@ function selectAxieMarketQuery(queryType) {
 function unwrapResData(queryType, res) {
   switch (queryType) {
     case "landSalesQuery":
-      return res.settledAuctions.lands;
+      return res.settledAuctions.lands.results;
     case "landsAuctionQuery":
       return res.lands.results;
     case "exchangeRatesQuery":
