@@ -15,34 +15,58 @@ const client = new GraphQLClient(endpoint, {
   },
 });
 
-const getLandSales = async (req, res) => {
-  const { variables } = req.body;
+function selectAxieMarketQuery(queryType) {
+  switch (queryType) {
+    case "landSalesQuery":
+      return landSalesQuery;
+    case "landsAuctionQuery":
+      return landsAuctionQuery;
+    case "exchangeRatesQuery":
+      return exchangeRatesQuery;
+    default:
+      return "";
+  }
+}
+
+function unwrapResData(queryType, res) {
+  switch (queryType) {
+    case "landSalesQuery":
+      return landSalesQuery;
+    case "landsAuctionQuery":
+      return res.lands.results;
+    case "exchangeRatesQuery":
+      return res.exchangeRate;
+    default:
+      return res;
+  }
+}
+
+/**
+ *
+ * @desc Fetch Axie Marketplace Data
+ * @route POST /axie-marketplace
+ * @db graphQL
+ * @param {
+ *  queryType:{
+ *  landSalesQuery,
+ *  landsAuctionQuery,
+ *  exchangeRatesQuery
+ * },
+ *  variables
+ * }
+ */
+const getAxieMarketData = async (req, res) => {
+  const { queryType, variables } = req.body;
+
   try {
-    const response = await client.request(landSalesQuery, variables);
-    res.json(response.settledAuctions.lands.results);
+    const response = await client.request(
+      selectAxieMarketQuery(queryType),
+      variables
+    );
+    res.json(unwrapResData(queryType, response));
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-const getLandAuctions = async (req, res) => {
-  const { variables } = req.body;
-
-  try {
-    const response = await client.request(landsAuctionQuery, variables);
-    res.json(response.lands);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
-
-const getExchangeRates = async (req, res) => {
-  try {
-    const response = await client.request(exchangeRatesQuery);
-    res.json(response.exchangeRate);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
-
-module.exports = { getLandSales, getLandAuctions, getExchangeRates };
+module.exports = { getAxieMarketData };

@@ -1,13 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const {
-  getLandSales,
-  getLandAuctions,
-  getExchangeRates,
-} = require("../controllers/axieMarketController");
+const { getAxieMarketData } = require("../controllers/axieMarketController");
 
-router.post("/sales", getLandSales);
-router.post("/auctions", getLandAuctions);
-router.get("/exchangeRates", getExchangeRates)
+router.post("/", getAxieMarketData);
 
 module.exports = router;
