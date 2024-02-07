@@ -31,7 +31,7 @@ function selectAxieMarketQuery(queryType) {
 function unwrapResData(queryType, res) {
   switch (queryType) {
     case "landSalesQuery":
-      return landSalesQuery;
+      return res.settledAuctions.lands;
     case "landsAuctionQuery":
       return res.lands.results;
     case "exchangeRatesQuery":
@@ -63,7 +63,8 @@ const getAxieMarketData = async (req, res) => {
       selectAxieMarketQuery(queryType),
       variables
     );
-    res.json(unwrapResData(queryType, response));
+    const data = await unwrapResData(queryType, response);
+    res.json(data);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
