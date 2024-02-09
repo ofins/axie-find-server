@@ -107,4 +107,35 @@ const exchangeRatesQuery = gql`
   }
 `;
 
-module.exports = { landSalesQuery, landsAuctionQuery, exchangeRatesQuery };
+const erc1155TokenSalesQuery = gql`
+  query getERC1155TokenSales($size: Int, $tokenType: Erc1155Type!) {
+    settledAuctions {
+      erc1155Tokens(tokenType: $tokenType, size: $size) {
+        results {
+          transferHistory {
+            results {
+              withPrice
+              from
+              to
+              toProfile {
+                name
+              }
+              txHash
+              timestamp
+              fromProfile {
+                name
+              }
+              settleQuantity
+            }
+          }
+          tokenType
+          name
+          imageUrl
+        }
+        total
+      }
+    }
+  }
+`;
+
+module.exports = { landSalesQuery, landsAuctionQuery, exchangeRatesQuery, erc1155TokenSalesQuery };

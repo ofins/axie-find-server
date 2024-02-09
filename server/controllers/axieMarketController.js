@@ -4,6 +4,7 @@ const {
   landSalesQuery,
   landsAuctionQuery,
   exchangeRatesQuery,
+  erc1155TokenSalesQuery,
 } = require("../schemas/queries/axieMarket");
 
 const endpoint = "https://api-gateway.skymavis.com/graphql/axie-marketplace";
@@ -23,6 +24,8 @@ function selectAxieMarketQuery(queryType) {
       return landsAuctionQuery;
     case "exchangeRatesQuery":
       return exchangeRatesQuery;
+    case "erc1155TokenSalesQuery":
+      return erc1155TokenSalesQuery;
     default:
       return "";
   }
@@ -36,6 +39,8 @@ function unwrapResData(queryType, res) {
       return res.lands.results;
     case "exchangeRatesQuery":
       return res.exchangeRate;
+    case "erc1155TokenSalesQuery":
+      return res.settledAuctions.erc1155Tokens.results;
     default:
       return res;
   }
@@ -50,7 +55,8 @@ function unwrapResData(queryType, res) {
  *  queryType:{
  *  landSalesQuery,
  *  landsAuctionQuery,
- *  exchangeRatesQuery
+ *  exchangeRatesQuery,
+ *  erc1155TokenSalesQuery
  * },
  *  variables
  * }
