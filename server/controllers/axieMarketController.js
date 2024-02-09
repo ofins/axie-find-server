@@ -68,7 +68,7 @@ const getAxieMarketData = async (req, res) => {
       variables
     );
     const data = await unwrapResData(queryType, response);
-    res.json(data);
+    res.status(200).json({ status: 200, data: data });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
