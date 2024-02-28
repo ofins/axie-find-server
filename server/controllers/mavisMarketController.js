@@ -3,6 +3,8 @@ const { GraphQLClient } = require("graphql-request");
 const {
   genkaiSalesQuery,
   genkaiAuctionsQuery,
+  pixelPetsSalesQuery,
+  pixelPetsAuctionsQuery,
 } = require("../schemas/queries/mavisMarket");
 
 const endpoint = "https://api-gateway.skymavis.com/graphql/mavis-marketplace";
@@ -20,6 +22,10 @@ function selectMavisMarketQuery(queryType) {
       return genkaiSalesQuery;
     case "genkaiAuctionsQuery":
       return genkaiAuctionsQuery;
+    case "pixelPetsSalesQuery":
+      return pixelPetsSalesQuery;
+    case "pixelPetsAuctionsQuery":
+      return pixelPetsAuctionsQuery;
     default:
       return "";
   }
@@ -28,8 +34,10 @@ function selectMavisMarketQuery(queryType) {
 function unwrapResData(queryType, res) {
   switch (queryType) {
     case "genkaiSalesQuery":
+    case "pixelPetsSalesQuery":
       return res.recentlySolds.results;
     case "genkaiAuctionsQuery":
+    case "pixelPetsAuctionsQuery":
       return res.erc721Tokens.results;
     default:
       return res;
