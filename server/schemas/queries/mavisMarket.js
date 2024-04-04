@@ -69,6 +69,74 @@ const genkaiAuctionsQuery = gql`
 `;
 
 /**
+ * @description CyberKongz VX
+ */
+const cyberKongzVXSalesQuery = gql`
+  query MyQuery {
+    recentlySolds(
+      from: 0
+      size: 40
+      tokenAddress: "0x241a81fc0d6692707dad2b5025a3a7cf2cf25acf"
+    ) {
+      results {
+        realPrice
+        timestamp
+        paymentToken
+        txHash
+        assets {
+          address
+          erc
+          id
+          orderId
+          quantity
+        }
+        matcher
+        orderId
+        orderKind
+        maker
+      }
+    }
+  }
+`;
+
+const cyberKongzVXAuctionsQuery = gql`
+  query MyQuery {
+    erc721Tokens(
+      from: 0
+      size: 50
+      tokenAddress: "0x241a81fc0d6692707dad2b5025a3a7cf2cf25acf"
+      auctionType: Sale
+      sort: PriceAsc
+    ) {
+      results {
+        name
+        transferHistory(size: 3) {
+          results {
+            withPrice
+            timestamp
+            to
+          }
+          total
+        }
+        image
+        owner
+        order {
+          startedAt
+          currentPrice
+          assets {
+            address
+            id
+          }
+        }
+        offers {
+          currentPrice
+        }
+      }
+    }
+  }
+`;
+
+/**
  * @description Pixel Pets
  */
 const pixelPetsSalesQuery = gql`
@@ -141,4 +209,6 @@ module.exports = {
   genkaiAuctionsQuery,
   pixelPetsSalesQuery,
   pixelPetsAuctionsQuery,
+  cyberKongzVXSalesQuery,
+  cyberKongzVXAuctionsQuery,
 };

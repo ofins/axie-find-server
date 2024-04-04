@@ -5,6 +5,8 @@ const {
   genkaiAuctionsQuery,
   pixelPetsSalesQuery,
   pixelPetsAuctionsQuery,
+  cyberKongzVXSalesQuery,
+  cyberKongzVXAuctionsQuery,
 } = require("../schemas/queries/mavisMarket");
 
 const endpoint = "https://api-gateway.skymavis.com/graphql/mavis-marketplace";
@@ -26,6 +28,10 @@ function selectMavisMarketQuery(queryType) {
       return pixelPetsSalesQuery;
     case "pixelPetsAuctionsQuery":
       return pixelPetsAuctionsQuery;
+    case "cyberKongzVXSalesQuery":
+      return cyberKongzVXSalesQuery;
+    case "cyberKongzVXAuctionsQuery":
+      return cyberKongzVXAuctionsQuery;
     default:
       return "";
   }
@@ -35,9 +41,11 @@ function unwrapResData(queryType, res) {
   switch (queryType) {
     case "genkaiSalesQuery":
     case "pixelPetsSalesQuery":
+    case "cyberKongzVXSalesQuery":
       return res.recentlySolds.results;
     case "genkaiAuctionsQuery":
     case "pixelPetsAuctionsQuery":
+    case "cyberKongzVXAuctionsQuery":
       return res.erc721Tokens.results;
     default:
       return res;
