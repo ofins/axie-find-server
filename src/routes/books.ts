@@ -33,9 +33,9 @@
  *         createdAt: 2020-03-10T04:05:06.157Z
  */
 
-import express from "express";
+import express from 'express';
 
 const router = express.Router();
-router.post("/");
+router.post('/');
 
 export default router;

@@ -1,54 +1,52 @@
-import { GraphQLClient } from "graphql-request";
+import { GraphQLClient } from 'graphql-request';
 
+import { Request, Response } from 'express';
+import { SM_API_KEY, SM_GATEWAY_GQL } from '../config/db';
 import {
-  genkaiSalesQuery,
-  genkaiAuctionsQuery,
-  pixelPetsSalesQuery,
-  pixelPetsAuctionsQuery,
-  cyberKongzVXSalesQuery,
   cyberKongzVXAuctionsQuery,
-} from "../schemas/queries/mavisMarket";
-import { SM_API_KEY, SM_GATEWAY_GQL } from "../config/db";
-import { RoutesEnum } from "../types/routes.enum";
+  cyberKongzVXSalesQuery,
+  genkaiAuctionsQuery,
+  genkaiSalesQuery,
+  pixelPetsAuctionsQuery,
+  pixelPetsSalesQuery,
+} from '../schemas/queries/mavisMarket';
+import { RoutesEnum } from '../types/routes.enum';
 
-const client = new GraphQLClient(
-  `${SM_GATEWAY_GQL}/${RoutesEnum.MAVIS_MARKETPLACE}`,
-  {
-    headers: {
-      "Content-Type": "application/json",
-      "X-API-Key": SM_API_KEY,
-    },
-  }
-);
+const client = new GraphQLClient(`${SM_GATEWAY_GQL}/${RoutesEnum.MAVIS_MARKETPLACE}`, {
+  headers: {
+    'Content-Type': 'application/json',
+    'X-API-Key': SM_API_KEY,
+  },
+});
 
 function selectMavisMarketQuery(queryType: string) {
   switch (queryType) {
-    case "genkaiSalesQuery":
+    case 'genkaiSalesQuery':
       return genkaiSalesQuery;
-    case "genkaiAuctionsQuery":
+    case 'genkaiAuctionsQuery':
       return genkaiAuctionsQuery;
-    case "pixelPetsSalesQuery":
+    case 'pixelPetsSalesQuery':
       return pixelPetsSalesQuery;
-    case "pixelPetsAuctionsQuery":
+    case 'pixelPetsAuctionsQuery':
       return pixelPetsAuctionsQuery;
-    case "cyberKongzVXSalesQuery":
+    case 'cyberKongzVXSalesQuery':
       return cyberKongzVXSalesQuery;
-    case "cyberKongzVXAuctionsQuery":
+    case 'cyberKongzVXAuctionsQuery':
       return cyberKongzVXAuctionsQuery;
     default:
-      return "";
+      return '';
   }
 }
 
-function unwrapResData(queryType: string, res) {
+function unwrapResData(queryType: string, res: any) {
   switch (queryType) {
-    case "genkaiSalesQuery":
-    case "pixelPetsSalesQuery":
-    case "cyberKongzVXSalesQuery":
+    case 'genkaiSalesQuery':
+    case 'pixelPetsSalesQuery':
+    case 'cyberKongzVXSalesQuery':
       return res.recentlySolds.results;
-    case "genkaiAuctionsQuery":
-    case "pixelPetsAuctionsQuery":
-    case "cyberKongzVXAuctionsQuery":
+    case 'genkaiAuctionsQuery':
+    case 'pixelPetsAuctionsQuery':
+    case 'cyberKongzVXAuctionsQuery':
       return res.erc721Tokens.results;
     default:
       return res;
@@ -68,18 +66,15 @@ function unwrapResData(queryType: string, res) {
  *  variables
  * }
  */
-export const getMavisMarketData = async (req, res) => {
+export const getMavisMarketData = async (req: Request, res: Response) => {
   const { queryType, variables = {} } = req.body;
 
   try {
     if (!queryType) {
-      throw new Error("queryType is required!");
+      throw new Error('queryType is required!');
     }
 
-    const response = await client.request(
-      selectMavisMarketQuery(queryType),
-      variables
-    );
+    const response = await client.request(selectMavisMarketQuery(queryType), variables);
     const data = await unwrapResData(queryType, response);
     res.status(200).json({ status: 200, data: data });
   } catch (error: any) {

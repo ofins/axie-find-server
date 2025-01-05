@@ -1,48 +1,46 @@
-import { GraphQLClient } from "graphql-request";
+import { GraphQLClient } from 'graphql-request';
 import {
+  erc1155TokenSalesQuery,
+  exchangeRatesQuery,
   landSalesQuery,
   landsAuctionQuery,
-  exchangeRatesQuery,
-  erc1155TokenSalesQuery,
-} from "../schemas/queries/axieMarket";
+} from '../schemas/queries/axieMarket';
 
-import { SM_API_KEY, SM_GATEWAY_GQL } from "../config/db";
-import { RoutesEnum } from "../types/routes.enum";
+import { Request, Response } from 'express';
+import { SM_API_KEY, SM_GATEWAY_GQL } from '../config/db';
+import { RoutesEnum } from '../types/routes.enum';
 
-const client = new GraphQLClient(
-  `${SM_GATEWAY_GQL}/${RoutesEnum.AXIE_MARKETPLACE}`,
-  {
-    headers: {
-      "Content-Type": "application/json",
-      "X-API-Key": SM_API_KEY,
-    },
-  }
-);
+const client = new GraphQLClient(`${SM_GATEWAY_GQL}/${RoutesEnum.AXIE_MARKETPLACE}`, {
+  headers: {
+    'Content-Type': 'application/json',
+    'X-API-Key': SM_API_KEY,
+  },
+});
 
 function selectAxieMarketQuery(queryType: string) {
   switch (queryType) {
-    case "landSalesQuery":
+    case 'landSalesQuery':
       return landSalesQuery;
-    case "landsAuctionQuery":
+    case 'landsAuctionQuery':
       return landsAuctionQuery;
-    case "exchangeRatesQuery":
+    case 'exchangeRatesQuery':
       return exchangeRatesQuery;
-    case "erc1155TokenSalesQuery":
+    case 'erc1155TokenSalesQuery':
       return erc1155TokenSalesQuery;
     default:
-      return "";
+      return '';
   }
 }
 
-function unwrapResData(queryType: string, res) {
+function unwrapResData(queryType: string, res: any) {
   switch (queryType) {
-    case "landSalesQuery":
+    case 'landSalesQuery':
       return res.settledAuctions.lands.results;
-    case "landsAuctionQuery":
+    case 'landsAuctionQuery':
       return res.lands.results;
-    case "exchangeRatesQuery":
+    case 'exchangeRatesQuery':
       return res.exchangeRate;
-    case "erc1155TokenSalesQuery":
+    case 'erc1155TokenSalesQuery':
       return res.settledAuctions.erc1155Tokens.results;
     default:
       return res;
@@ -64,22 +62,19 @@ function unwrapResData(queryType: string, res) {
  *  variables
  * }
  */
-export const getAxieMarketData = async (req, res) => {
+export const getAxieMarketData = async (req: Request, res: Response) => {
   const { queryType, variables = {} } = req.body;
   // console.log(queryType, variables);
 
   try {
     if (!queryType) {
-      throw new Error("queryType is required!");
+      throw new Error('queryType is required!');
     }
 
-    const response = await client.request(
-      selectAxieMarketQuery(queryType),
-      variables
-    );
+    const response = await client.request(selectAxieMarketQuery(queryType), variables);
     const data = await unwrapResData(queryType, response);
     res.status(200).json({ status: 200, data: data });
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
     res.status(500).json({ error: error.message });
   }

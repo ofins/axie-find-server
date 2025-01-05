@@ -1,7 +1,7 @@
-import express from "express";
-import { getMavisMarketData } from "../controllers/mavisMarketController";
+import express from 'express';
+import { getMavisMarketData } from '../controllers/mavisMarketController';
 const router = express.Router();
 
-router.post("/", getMavisMarketData);
+router.post('/', getMavisMarketData);
 
 export default router;
