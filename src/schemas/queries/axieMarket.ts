@@ -107,6 +107,15 @@ const exchangeRatesQuery = gql`
   }
 `;
 
+// const exchangeRatesQuery = gql`
+//   query GetExchangeRates($tokens: [String!]!) {
+//     exchangeRates(tokens: $tokens) {
+//       token
+//       usd
+//     }
+//   }
+// `;
+
 const erc1155TokenSalesQuery = gql`
   query getERC1155TokenSales($size: Int, $tokenType: Erc1155Type!) {
     settledAuctions {

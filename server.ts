@@ -9,7 +9,7 @@ import morgan from 'morgan';
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 
-import axieRoutes from './src/routes/axieMarketRoute';
+import axieRoutes from './src/routes/axieMarket.route';
 import bookRoutes from './src/routes/books';
 import mavisRoutes from './src/routes/mavisMarketRoute';
 
