@@ -51,7 +51,6 @@ export class AxieMarketController {
     }
   }
   public async getErc1155TokenSale(req: Request, res: Response) {
-    console.log(res);
     const { variables = {} } = req.body;
 
     try {

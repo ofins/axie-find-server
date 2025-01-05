@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon -r tsconfig-paths/register server.ts",
+    "start": "nodemon -r tsconfig-paths/register server.ts",
     "type:check": "tsc --noEmit",
     "prettier:check": "prettier --check \"**/*.{ts,js}\"",
     "lint": "eslint \"./**/*.{js,ts}\" --quiet",

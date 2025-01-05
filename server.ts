@@ -64,6 +64,5 @@ app.get('/', (_req, res) => {
 });
 
 app.listen(PORT, () => {
-  // console.log(`Server is listening on port ${PORT}`, colors.yellow.bold);
   console.log(colors.yellow.bold(`Server is listening on port ${PORT}`));
 });
