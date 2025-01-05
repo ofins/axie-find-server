@@ -5,8 +5,8 @@ import bodyParser from "body-parser";
 import morgan from "morgan";
 import colors from "colors";
 
-import axieRoutes from "./server/routes/axieMarketRoute";
-import mavisRoutes from "./server/routes/mavisMarketRoute";
+import axieRoutes from "./src/routes/axieMarketRoute";
+import mavisRoutes from "./src/routes/mavisMarketRoute";
 
 dotenv.config();
 
@@ -22,5 +22,6 @@ app.use("/mavis-marketplace", mavisRoutes);
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-  console.log(`Server is listening on port ${PORT}`.yellow.bold);
+  // console.log(`Server is listening on port ${PORT}`, colors.yellow.bold);
+  console.log(colors.yellow.bold(`Server is listening on port ${PORT}`));
 });
