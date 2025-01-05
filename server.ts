@@ -9,6 +9,7 @@ import morgan from 'morgan';
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 
+import { PreRoutesEnum, RoutesEnum } from 'src/types/routes.enum';
 import axieRoutes from './src/routes/axieMarket.route';
 import bookRoutes from './src/routes/books';
 import mavisRoutes from './src/routes/mavisMarketRoute';
@@ -52,7 +53,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(morgan('dev'));
 
-app.use('/axie-marketplace', axieRoutes);
+app.use(`${PreRoutesEnum.V1_SERVICES}${RoutesEnum.AXIE_MARKETPLACE}`, axieRoutes);
 app.use('/mavis-marketplace', mavisRoutes);
 app.use('/books', bookRoutes);
 

@@ -74,7 +74,6 @@ const landsAuctionQuery = gql`
         ownerProfile {
           name
           accountId
-          activated
         }
       }
       total
