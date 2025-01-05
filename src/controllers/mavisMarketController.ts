@@ -1,4 +1,3 @@
-import { SM_API_KEY } from "../config/db";
 import { GraphQLClient } from "graphql-request";
 
 import {
@@ -9,15 +8,18 @@ import {
   cyberKongzVXSalesQuery,
   cyberKongzVXAuctionsQuery,
 } from "../schemas/queries/mavisMarket";
+import { SM_API_KEY, SM_GATEWAY_GQL } from "../config/db";
+import { RoutesEnum } from "../types/routes.enum";
 
-const endpoint = "https://api-gateway.skymavis.com/graphql/mavis-marketplace";
-
-const client = new GraphQLClient(endpoint, {
-  headers: {
-    "Content-Type": "application/json",
-    "X-API-Key": SM_API_KEY,
-  },
-});
+const client = new GraphQLClient(
+  `${SM_GATEWAY_GQL}/${RoutesEnum.MAVIS_MARKETPLACE}`,
+  {
+    headers: {
+      "Content-Type": "application/json",
+      "X-API-Key": SM_API_KEY,
+    },
+  }
+);
 
 function selectMavisMarketQuery(queryType: string) {
   switch (queryType) {

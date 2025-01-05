@@ -1,4 +1,3 @@
-import { SM_API_KEY } from "../config/db";
 import { GraphQLClient } from "graphql-request";
 import {
   landSalesQuery,
@@ -7,14 +6,18 @@ import {
   erc1155TokenSalesQuery,
 } from "../schemas/queries/axieMarket";
 
-const endpoint = "https://api-gateway.skymavis.com/graphql/axie-marketplace";
+import { SM_API_KEY, SM_GATEWAY_GQL } from "../config/db";
+import { RoutesEnum } from "../types/routes.enum";
 
-const client = new GraphQLClient(endpoint, {
-  headers: {
-    "Content-Type": "application/json",
-    "X-API-Key": SM_API_KEY,
-  },
-});
+const client = new GraphQLClient(
+  `${SM_GATEWAY_GQL}/${RoutesEnum.AXIE_MARKETPLACE}`,
+  {
+    headers: {
+      "Content-Type": "application/json",
+      "X-API-Key": SM_API_KEY,
+    },
+  }
+);
 
 function selectAxieMarketQuery(queryType: string) {
   switch (queryType) {
@@ -63,6 +66,7 @@ function unwrapResData(queryType: string, res) {
  */
 export const getAxieMarketData = async (req, res) => {
   const { queryType, variables = {} } = req.body;
+  // console.log(queryType, variables);
 
   try {
     if (!queryType) {
@@ -76,6 +80,7 @@ export const getAxieMarketData = async (req, res) => {
     const data = await unwrapResData(queryType, response);
     res.status(200).json({ status: 200, data: data });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: error.message });
   }
 };
