@@ -1,12 +1,14 @@
-const express = require("express");
-require("dotenv").config();
-const cors = require("cors");
-const bodyParser = require("body-parser");
-const morgan = require("morgan");
-const colors = require("colors");
+import express from "express";
+import dotenv from "dotenv";
+import cors from "cors";
+import bodyParser from "body-parser";
+import morgan from "morgan";
+import colors from "colors";
 
-const axieRoutes = require("./routes/axieMarketRoute");
-const mavisRoutes = require("./routes/mavisMarketRoute");
+import axieRoutes from "./server/routes/axieMarketRoute";
+import mavisRoutes from "./server/routes/mavisMarketRoute";
+
+dotenv.config();
 
 const app = express();
 app.use(express.json());

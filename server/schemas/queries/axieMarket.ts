@@ -1,4 +1,4 @@
-const { gql } = require("graphql-request");
+import { gql } from "graphql-request";
 
 const landSalesQuery = gql`
   query getLandsSales($size: Int, $from: Int) {
@@ -138,4 +138,9 @@ const erc1155TokenSalesQuery = gql`
   }
 `;
 
-module.exports = { landSalesQuery, landsAuctionQuery, exchangeRatesQuery, erc1155TokenSalesQuery };
+export {
+  landSalesQuery,
+  landsAuctionQuery,
+  exchangeRatesQuery,
+  erc1155TokenSalesQuery,
+};

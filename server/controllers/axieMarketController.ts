@@ -1,11 +1,11 @@
-const SM_API_KEY = require("../config/db");
-const { GraphQLClient } = require("graphql-request");
-const {
+import { SM_API_KEY } from "../config/db";
+import { GraphQLClient } from "graphql-request";
+import {
   landSalesQuery,
   landsAuctionQuery,
   exchangeRatesQuery,
   erc1155TokenSalesQuery,
-} = require("../schemas/queries/axieMarket");
+} from "../schemas/queries/axieMarket";
 
 const endpoint = "https://api-gateway.skymavis.com/graphql/axie-marketplace";
 
@@ -16,7 +16,7 @@ const client = new GraphQLClient(endpoint, {
   },
 });
 
-function selectAxieMarketQuery(queryType) {
+function selectAxieMarketQuery(queryType: string) {
   switch (queryType) {
     case "landSalesQuery":
       return landSalesQuery;
@@ -31,7 +31,7 @@ function selectAxieMarketQuery(queryType) {
   }
 }
 
-function unwrapResData(queryType, res) {
+function unwrapResData(queryType: string, res) {
   switch (queryType) {
     case "landSalesQuery":
       return res.settledAuctions.lands.results;
@@ -61,7 +61,7 @@ function unwrapResData(queryType, res) {
  *  variables
  * }
  */
-const getAxieMarketData = async (req, res) => {
+export const getAxieMarketData = async (req, res) => {
   const { queryType, variables = {} } = req.body;
 
   try {
@@ -79,5 +79,3 @@ const getAxieMarketData = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-
-module.exports = { getAxieMarketData };

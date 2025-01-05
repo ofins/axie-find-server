@@ -1,13 +1,14 @@
-const SM_API_KEY = require("../config/db");
-const { GraphQLClient } = require("graphql-request");
-const {
+import { SM_API_KEY } from "../config/db";
+import { GraphQLClient } from "graphql-request";
+
+import {
   genkaiSalesQuery,
   genkaiAuctionsQuery,
   pixelPetsSalesQuery,
   pixelPetsAuctionsQuery,
   cyberKongzVXSalesQuery,
   cyberKongzVXAuctionsQuery,
-} = require("../schemas/queries/mavisMarket");
+} from "../schemas/queries/mavisMarket";
 
 const endpoint = "https://api-gateway.skymavis.com/graphql/mavis-marketplace";
 
@@ -18,7 +19,7 @@ const client = new GraphQLClient(endpoint, {
   },
 });
 
-function selectMavisMarketQuery(queryType) {
+function selectMavisMarketQuery(queryType: string) {
   switch (queryType) {
     case "genkaiSalesQuery":
       return genkaiSalesQuery;
@@ -37,7 +38,7 @@ function selectMavisMarketQuery(queryType) {
   }
 }
 
-function unwrapResData(queryType, res) {
+function unwrapResData(queryType: string, res) {
   switch (queryType) {
     case "genkaiSalesQuery":
     case "pixelPetsSalesQuery":
@@ -65,7 +66,7 @@ function unwrapResData(queryType, res) {
  *  variables
  * }
  */
-const getMavisMarketData = async (req, res) => {
+export const getMavisMarketData = async (req, res) => {
   const { queryType, variables = {} } = req.body;
 
   try {
@@ -79,9 +80,7 @@ const getMavisMarketData = async (req, res) => {
     );
     const data = await unwrapResData(queryType, response);
     res.status(200).json({ status: 200, data: data });
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({ error: error.message });
   }
 };
-
-module.exports = { getMavisMarketData };

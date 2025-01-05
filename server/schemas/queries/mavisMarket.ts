@@ -1,4 +1,4 @@
-const { gql } = require("graphql-request");
+import { gql } from "graphql-request";
 
 /**
  * @description Cyberkongz Genkai
@@ -204,11 +204,11 @@ const pixelPetsAuctionsQuery = gql`
   }
 `;
 
-module.exports = {
-  genkaiSalesQuery,
+export {
   genkaiAuctionsQuery,
-  pixelPetsSalesQuery,
-  pixelPetsAuctionsQuery,
-  cyberKongzVXSalesQuery,
+  genkaiSalesQuery,
   cyberKongzVXAuctionsQuery,
+  cyberKongzVXSalesQuery,
+  pixelPetsAuctionsQuery,
+  pixelPetsSalesQuery,
 };
