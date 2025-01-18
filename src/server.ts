@@ -10,9 +10,7 @@ import morgan from 'morgan';
 import initSwagger from 'src/swagger';
 import { PreRoutesEnum, RoutesEnum } from 'src/types/routes.enum';
 import axieRoutes from './routes/axieMarket.route';
-import mavisRoutes from './routes/mavisMarketRoute';
-
-export const SM_API_KEY = process.env.SKY_MAVIS_API_KEY;
+import mavisRoutes from './routes/mavisMarket.route';
 
 const app = express();
 initSwagger(app);
@@ -23,7 +21,7 @@ app.use(bodyParser.json());
 app.use(morgan('dev'));
 
 app.use(`${PreRoutesEnum.V1_SERVICES}${RoutesEnum.AXIE_MARKETPLACE}`, axieRoutes);
-app.use('/mavis-marketplace', mavisRoutes);
+app.use(`${PreRoutesEnum.V1_SERVICES}${RoutesEnum.MAVIS_MARKETPLACE}`, mavisRoutes);
 
 const PORT = process.env.PORT || 8000;
 

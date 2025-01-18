@@ -1,83 +1,83 @@
-import { GraphQLClient } from 'graphql-request';
-
 import { Request, Response } from 'express';
-import { SM_API_KEY, SM_GATEWAY_GQL } from '../config/db';
-import {
-  cyberKongzVXAuctionsQuery,
-  cyberKongzVXSalesQuery,
-  genkaiAuctionsQuery,
-  genkaiSalesQuery,
-  pixelPetsAuctionsQuery,
-  pixelPetsSalesQuery,
-} from '../schemas/queries/mavisMarket';
-import { RoutesEnum } from '../types/routes.enum';
+import { MavisMarketService } from 'src/services/mavisMarket.service';
 
-const client = new GraphQLClient(`${SM_GATEWAY_GQL}/${RoutesEnum.MAVIS_MARKETPLACE}`, {
-  headers: {
-    'Content-Type': 'application/json',
-    'X-API-Key': SM_API_KEY,
-  },
-});
+export class MavisMarketController {
+  private marketService: MavisMarketService;
 
-function selectMavisMarketQuery(queryType: string) {
-  switch (queryType) {
-    case 'genkaiSalesQuery':
-      return genkaiSalesQuery;
-    case 'genkaiAuctionsQuery':
-      return genkaiAuctionsQuery;
-    case 'pixelPetsSalesQuery':
-      return pixelPetsSalesQuery;
-    case 'pixelPetsAuctionsQuery':
-      return pixelPetsAuctionsQuery;
-    case 'cyberKongzVXSalesQuery':
-      return cyberKongzVXSalesQuery;
-    case 'cyberKongzVXAuctionsQuery':
-      return cyberKongzVXAuctionsQuery;
-    default:
-      return '';
+  constructor() {
+    this.marketService = new MavisMarketService();
+
+    this.getGenkaiSale = this.getGenkaiSale.bind(this);
+    this.getGenkaiAuction = this.getGenkaiAuction.bind(this);
+    this.getPixelPetSale = this.getPixelPetSale.bind(this);
+    this.getPixelPetAuction = this.getPixelPetAuction.bind(this);
+    this.getCyberKongzSale = this.getCyberKongzSale.bind(this);
+    this.getCyberKongzAuction = this.getCyberKongzAuction.bind(this);
   }
-}
 
-function unwrapResData(queryType: string, res: any) {
-  switch (queryType) {
-    case 'genkaiSalesQuery':
-    case 'pixelPetsSalesQuery':
-    case 'cyberKongzVXSalesQuery':
-      return res.recentlySolds.results;
-    case 'genkaiAuctionsQuery':
-    case 'pixelPetsAuctionsQuery':
-    case 'cyberKongzVXAuctionsQuery':
-      return res.erc721Tokens.results;
-    default:
-      return res;
-  }
-}
+  public async getGenkaiSale(req: Request, res: Response) {
+    const { variables = {} } = req.body;
 
-/**
- *
- * @desc Fetch Mavis Marketplace Data
- * @route POST /mavis-marketplace
- * @db graphQL
- * @param {
- *  queryType:{
- *  genkaiSalesQuery,
- *  genkaiAuctionsQuery
- * },
- *  variables
- * }
- */
-export const getMavisMarketData = async (req: Request, res: Response) => {
-  const { queryType, variables = {} } = req.body;
-
-  try {
-    if (!queryType) {
-      throw new Error('queryType is required!');
+    try {
+      const data = await this.marketService.fetchGenkaiSale(variables);
+      res.status(200).json({ status: 200, data });
+    } catch (error) {
+      console.error('fetch genkai sales:', error);
     }
-
-    const response = await client.request(selectMavisMarketQuery(queryType), variables);
-    const data = await unwrapResData(queryType, response);
-    res.status(200).json({ status: 200, data: data });
-  } catch (error: any) {
-    res.status(500).json({ error: error.message });
   }
-};
+
+  public async getGenkaiAuction(req: Request, res: Response) {
+    const { variables = {} } = req.body;
+
+    try {
+      const data = await this.marketService.fetchGenkaiAuction(variables);
+      res.status(200).json({ status: 200, data });
+    } catch (error) {
+      console.error('fetch genkai sales:', error);
+    }
+  }
+
+  public async getPixelPetSale(req: Request, res: Response) {
+    const { variables = {} } = req.body;
+
+    try {
+      const data = await this.marketService.fetchPixelPetSale(variables);
+      res.status(200).json({ status: 200, data });
+    } catch (error) {
+      console.error('fetch genkai sales:', error);
+    }
+  }
+
+  public async getPixelPetAuction(req: Request, res: Response) {
+    const { variables = {} } = req.body;
+
+    try {
+      const data = await this.marketService.fetchPixelPetAuction(variables);
+      res.status(200).json({ status: 200, data });
+    } catch (error) {
+      console.error('fetch genkai sales:', error);
+    }
+  }
+
+  public async getCyberKongzSale(req: Request, res: Response) {
+    const { variables = {} } = req.body;
+
+    try {
+      const data = await this.marketService.fetchCyberKongzSale(variables);
+      res.status(200).json({ status: 200, data });
+    } catch (error) {
+      console.error('fetch genkai sales:', error);
+    }
+  }
+
+  public async getCyberKongzAuction(req: Request, res: Response) {
+    const { variables = {} } = req.body;
+
+    try {
+      const data = await this.marketService.fetchCyberKongzAuction(variables);
+      res.status(200).json({ status: 200, data });
+    } catch (error) {
+      console.error('fetch genkai sales:', error);
+    }
+  }
+}

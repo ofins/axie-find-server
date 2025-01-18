@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { GraphQLClient, Variables } from 'graphql-request';
 import { SM_API_KEY, SM_GATEWAY_GQL } from 'src/config/db';
 import {
@@ -6,9 +7,22 @@ import {
   landSalesQuery,
   landsAuctionQuery,
 } from 'src/schemas/queries/axieMarket';
-import { MarketplaceResponse } from 'src/types/axieMarketType';
 import { RoutesEnum } from 'src/types/routes.enum';
 
+interface MarketplaceResponse {
+  settledAuctions?: {
+    lands?: {
+      results: any[];
+    };
+    erc1155Tokens?: {
+      results: any[];
+    };
+  };
+  lands?: {
+    results: any[];
+  };
+  exchangeRate?: any;
+}
 export class AxieMarketService {
   private client: GraphQLClient;
 
