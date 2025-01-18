@@ -1,18 +1,13 @@
 import { Request, Response } from 'express';
 import { MavisMarketService } from 'src/services/mavisMarket.service';
+import { autoBindMethods } from 'src/utils/common';
 
 export class MavisMarketController {
   private marketService: MavisMarketService;
 
   constructor() {
     this.marketService = new MavisMarketService();
-
-    this.getGenkaiSale = this.getGenkaiSale.bind(this);
-    this.getGenkaiAuction = this.getGenkaiAuction.bind(this);
-    this.getPixelPetSale = this.getPixelPetSale.bind(this);
-    this.getPixelPetAuction = this.getPixelPetAuction.bind(this);
-    this.getCyberKongzSale = this.getCyberKongzSale.bind(this);
-    this.getCyberKongzAuction = this.getCyberKongzAuction.bind(this);
+    autoBindMethods(this);
   }
 
   public async getGenkaiSale(req: Request, res: Response) {

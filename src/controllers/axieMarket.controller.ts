@@ -1,16 +1,13 @@
 import { Request, Response } from 'express';
 import { AxieMarketService } from 'src/services/axieMarket.service';
+import { autoBindMethods } from 'src/utils/common';
 
 export class AxieMarketController {
   private marketService: AxieMarketService;
 
   constructor() {
     this.marketService = new AxieMarketService();
-
-    this.getExchangeRates = this.getExchangeRates.bind(this);
-    this.getLandSale = this.getLandSale.bind(this);
-    this.getLandAuction = this.getLandAuction.bind(this);
-    this.getErc1155TokenSale = this.getErc1155TokenSale.bind(this);
+    autoBindMethods(this);
   }
 
   public async getExchangeRates(req: Request, res: Response) {
