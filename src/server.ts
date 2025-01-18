@@ -7,10 +7,10 @@ import cors from 'cors';
 import express from 'express';
 import morgan from 'morgan';
 
+import initSwagger from 'src/swagger';
 import { PreRoutesEnum, RoutesEnum } from 'src/types/routes.enum';
-import initSwagger from 'swagger';
-import axieRoutes from './src/routes/axieMarket.route';
-import mavisRoutes from './src/routes/mavisMarketRoute';
+import axieRoutes from './routes/axieMarket.route';
+import mavisRoutes from './routes/mavisMarketRoute';
 
 export const SM_API_KEY = process.env.SKY_MAVIS_API_KEY;
 
