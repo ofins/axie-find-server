@@ -1,4 +1,4 @@
-const { gql } = require("graphql-request");
+import { gql } from 'graphql-request';
 
 const landSalesQuery = gql`
   query getLandsSales($size: Int, $from: Int) {
@@ -74,7 +74,6 @@ const landsAuctionQuery = gql`
         ownerProfile {
           name
           accountId
-          activated
         }
       }
       total
@@ -107,6 +106,15 @@ const exchangeRatesQuery = gql`
   }
 `;
 
+// const exchangeRatesQuery = gql`
+//   query GetExchangeRates($tokens: [String!]!) {
+//     exchangeRates(tokens: $tokens) {
+//       token
+//       usd
+//     }
+//   }
+// `;
+
 const erc1155TokenSalesQuery = gql`
   query getERC1155TokenSales($size: Int, $tokenType: Erc1155Type!) {
     settledAuctions {
@@ -138,4 +146,4 @@ const erc1155TokenSalesQuery = gql`
   }
 `;
 
-module.exports = { landSalesQuery, landsAuctionQuery, exchangeRatesQuery, erc1155TokenSalesQuery };
+export { erc1155TokenSalesQuery, exchangeRatesQuery, landSalesQuery, landsAuctionQuery };

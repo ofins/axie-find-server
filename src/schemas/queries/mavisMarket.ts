@@ -1,15 +1,11 @@
-const { gql } = require("graphql-request");
+import { gql } from 'graphql-request';
 
 /**
  * @description Cyberkongz Genkai
  */
 const genkaiSalesQuery = gql`
   query getGenkaiSales {
-    recentlySolds(
-      from: 0
-      size: 40
-      tokenAddress: "0x1f7c16fce4fc894143afb5545bf04f676bf7dcf3"
-    ) {
+    recentlySolds(from: 0, size: 40, tokenAddress: "0x1f7c16fce4fc894143afb5545bf04f676bf7dcf3") {
       results {
         realPrice
         timestamp
@@ -73,11 +69,7 @@ const genkaiAuctionsQuery = gql`
  */
 const cyberKongzVXSalesQuery = gql`
   query MyQuery {
-    recentlySolds(
-      from: 0
-      size: 40
-      tokenAddress: "0x241a81fc0d6692707dad2b5025a3a7cf2cf25acf"
-    ) {
+    recentlySolds(from: 0, size: 40, tokenAddress: "0x241a81fc0d6692707dad2b5025a3a7cf2cf25acf") {
       results {
         realPrice
         timestamp
@@ -141,11 +133,7 @@ const cyberKongzVXAuctionsQuery = gql`
  */
 const pixelPetsSalesQuery = gql`
   query getGenkaiSales {
-    recentlySolds(
-      from: 0
-      size: 40
-      tokenAddress: "0xb806028b6ebc35926442770a8a8a7aeab6e2ce5c"
-    ) {
+    recentlySolds(from: 0, size: 40, tokenAddress: "0xb806028b6ebc35926442770a8a8a7aeab6e2ce5c") {
       results {
         realPrice
         timestamp
@@ -204,11 +192,11 @@ const pixelPetsAuctionsQuery = gql`
   }
 `;
 
-module.exports = {
-  genkaiSalesQuery,
-  genkaiAuctionsQuery,
-  pixelPetsSalesQuery,
-  pixelPetsAuctionsQuery,
-  cyberKongzVXSalesQuery,
+export {
   cyberKongzVXAuctionsQuery,
+  cyberKongzVXSalesQuery,
+  genkaiAuctionsQuery,
+  genkaiSalesQuery,
+  pixelPetsAuctionsQuery,
+  pixelPetsSalesQuery,
 };
